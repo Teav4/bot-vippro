@@ -22,6 +22,11 @@ const routes = (message: any, api: Api): void => {
       api.sendMessage({ body: 'ko triga' }, msg.threadId)
       return
     }
+
+    if (commandIs('ko triga')) {
+      api.sendMessage({ body: 'triga qua non' }, msg.threadId)
+      return
+    }
   
   }
 }
