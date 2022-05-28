@@ -1,7 +1,7 @@
 {
-	"name": "ts-messenger-api",
+	"name": "bot-vippro",
 	"version": "1.0.2",
-	"description": "The unofficial API for FB Messenger communication",
+	"description": "Facebook BOT vippro",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"scripts": {
@@ -12,20 +12,17 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/makiprogrammer/ts-messenger-api.git"
+		"url": "git+https://github.com/Teav4/bot-vippro.git"
 	},
 	"keywords": [
 		"facebook",
 		"messenger",
 		"api",
-		"messaging"
+		"messaging",
+		"message-bot"
 	],
-	"author": "Filip Makara",
+	"author": "Filip Makara, Teav4",
 	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/makiprogrammer/ts-messenger-api/issues"
-	},
-	"homepage": "https://github.com/makiprogrammer/ts-messenger-api#readme",
 	"dependencies": {
 		"cheerio": "^1.0.0-rc.5",
 		"events": "^3.2.0",

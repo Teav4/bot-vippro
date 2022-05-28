@@ -2,3 +2,7 @@
 node_modules
 dist
 extracts
+
+.env
+.env.local
+.env.prod
