@@ -5,6 +5,7 @@
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"scripts": {
+		"start": "ts-node main.ts",
 		"test": "tsc && npx mocha -r ts-node/register",
 		"prepublish": "npm run build",
 		"build": "tsc",
@@ -25,6 +26,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"cheerio": "^1.0.0-rc.5",
+		"dotenv": "^16.0.1",
 		"events": "^3.2.0",
 		"form-data": "^4.0.0",
 		"got": "^11.8.1",
