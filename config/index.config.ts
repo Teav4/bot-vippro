@@ -9,6 +9,8 @@ const config = {
   POSTGRES_USER: process.env.POSTGRES_USER,
   POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
   POSTGRES_DB: process.env.POSTGRES_DB,
+  SANKAKU_USERNAME: process.env.SANKAKU_USERNAME,
+  SANKAKU_PASSWORD: process.env.SANKAKU_PASSWORD,
 }
 
 export default config
