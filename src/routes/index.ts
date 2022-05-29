@@ -2,6 +2,7 @@
 import { commandInit } from '../utils'
 import { IncomingMessage } from '../../lib/types/incomingMessages'
 import { replyController } from '../controllers/ReplyController'
+import { sankakuController } from '../controllers/sankakuController'
 import Api from '../../dist/lib/api'
 import { connectPostgres } from '../database/connect'
 import config from '../../config/index.config'
@@ -17,6 +18,7 @@ const client = connectPostgres({
 const routes = (message: any, api: Api): void => {
 
   const reply = new replyController(api, client)
+  const sankaku = new sankakuController(api)
 
   if (typeof message.body === 'string') {
     const msg: IncomingMessage = message
@@ -34,6 +36,11 @@ const routes = (message: any, api: Api): void => {
 
     if (commandIs('ko triga')) {
       api.sendMessage({ body: 'triga qua non' }, msg.threadId)
+      return
+    }
+
+    if (commandIs('daily')) {
+      sankaku.dailyGenshin(msg)
       return
     }
 
