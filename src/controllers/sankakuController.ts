@@ -20,8 +20,18 @@ export class sankakuController {
     today.setSeconds(0,0)
     today.setDate(today.getDate()-1)
     const todayTag = `date:${today.toISOString().split(':')[0]}:00`
+    today.setDate(today.getDate()-1)
+    const yesterdayTag = `date:${today.toISOString().split(':')[0]}:00`
+    
+    const result = await this.client.searchIllust({ 
+      tags: [
+        'high_resolution', '-sex', '-large_filesize', '-male', '-penis', '-bursting_breasts', 
+        `${yesterdayTag}..${todayTag}`
+      ], 
+      limit: 80, 
+      order_by: 'popularity' 
+    })
 
-    const result = await this.client.searchIllust({ tags: ['genshin_impact', '-video', todayTag], limit: 40, order_by: 'popularity', rating: { r18: false } })
     const randomImage = [randomOfList(result)]
 
     const imageUrls: string[] = randomImage.map((item: imageProps) => item.sample_url)
