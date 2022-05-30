@@ -25,7 +25,7 @@ export class sankakuController {
     
     const result = await this.client.searchIllust({ 
       tags: [
-        'high_resolution', '-sex', '-large_filesize', '-male', '-penis', '-bursting_breasts', 
+        'high_resolution', '-sex', '-vagina', '-large_filesize', '-male', 
         `${yesterdayTag}..${todayTag}`
       ], 
       limit: 60, 
