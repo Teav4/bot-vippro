@@ -28,7 +28,7 @@ export class sankakuController {
         'high_resolution', '-sex', '-large_filesize', '-male', '-penis', '-bursting_breasts', 
         `${yesterdayTag}..${todayTag}`
       ], 
-      limit: 80, 
+      limit: 60, 
       order_by: 'popularity' 
     })
 
