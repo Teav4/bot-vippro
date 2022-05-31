@@ -2,6 +2,7 @@ import { Client } from "pg";
 import Api from "../../dist/lib/api";
 import { IncomingMessage } from "../../lib/types/incomingMessages";
 import ReplyModel from "../models/reply.model";
+import ImageModel from "../models/image.model";
 import { getFileStreamFromURL } from '../utils/http'
 import { validURL } from '../utils/validate';
 
@@ -45,4 +46,18 @@ export class replyController {
     }
 
   }
+
+  randomImage = async (msg: IncomingMessage): Promise<void> => {
+    const imageModel = new ImageModel(this.db)
+    const imageUrl = await imageModel.getRandomImage()
+
+    if (null !== imageUrl) {
+      const imageStream = await getFileStreamFromURL(imageUrl)
+      this.api.sendMessage({
+        attachment: [imageStream],
+      }, msg.threadId)
+    }
+
+  }
+
 }
