@@ -6,8 +6,9 @@ import ImageModel from "../models/image.model";
 import { getFileStreamFromURL } from '../utils/http'
 import { validURL } from '../utils/validate';
 import { YandeClient } from '../services/yandeClient'
-import { YANDE_RE, EMOJI_RELOAD, EMOJI_DONE } from '../constants/reply.constants'
+import { YANDE_RE, EMOJI_RELOAD, EMOJI_DONE, EMOJI_UP } from '../constants/reply.constants'
 import { getEmojiByNumber } from "../utils/command";
+import { googleTTS } from "../services/textToSpeed";
 
 export class replyController {
   api: Api
@@ -79,6 +80,18 @@ export class replyController {
       today.setDate(today.getDate()-1)
     }
 
+    await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_DONE)
+  }
+
+  textToSpeed = async (msg: IncomingMessage, args: string[]): Promise<void> => {
+    const text = args.join(' ')
+    await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_RELOAD)
+    const stream = await googleTTS(text)
+    await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_UP)
+
+    this.api.sendMessage({
+      attachment: [stream],
+    }, msg.threadId)
     await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_DONE)
   }
 
