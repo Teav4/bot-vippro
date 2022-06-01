@@ -3,11 +3,12 @@ import { EMOJI_0, EMOJI_1, EMOJI_2, EMOJI_3, EMOJI_4, EMOJI_5, EMOJI_6, EMOJI_7,
 interface CommandInitProps {
   commandIs(key: string): boolean;
   commandStartAt(key: string[]): boolean;
+  getCommandArgs(prefix: string): string[]
 }
 
 function commandStartAt(key: string[], from: string): boolean {
   for(let i=0; i<key.length; ++i) {
-    if (from.indexOf(key[i]) === 0) return true
+    if (from.indexOf(key[i]+' ') === 0) return true
   }
 
   return false
@@ -17,10 +18,15 @@ function commandIs(key: string, string: string): boolean {
   return key.trim() === string.trim()
 }
 
+function getCommandArgs(prefix: string, message: string): string[] {
+  return message.replace(prefix, '').trim().split(' ')
+}
+
 export function commandInit(message: string): CommandInitProps {
   return {
     commandIs: (key) => commandIs(key, message),
-    commandStartAt: (key) => commandStartAt(key, message)
+    commandStartAt: (key) => commandStartAt(key, message),
+    getCommandArgs: (prefix) => getCommandArgs(prefix, message)
   }
 }
 
