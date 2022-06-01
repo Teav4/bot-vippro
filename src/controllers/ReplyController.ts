@@ -5,6 +5,9 @@ import ReplyModel from "../models/reply.model";
 import ImageModel from "../models/image.model";
 import { getFileStreamFromURL } from '../utils/http'
 import { validURL } from '../utils/validate';
+import { YandeClient } from '../services/yandeClient'
+import { YANDE_RE, EMOJI_RELOAD, EMOJI_DONE } from '../constants/reply.constants'
+import { getEmojiByNumber } from "../utils/command";
 
 export class replyController {
   api: Api
@@ -58,6 +61,25 @@ export class replyController {
       }, msg.threadId)
     }
 
+  }
+
+  update = async (msg: IncomingMessage): Promise<void> => {
+    const yandeClient = new YandeClient()
+    const imageModel = new ImageModel(this.db)
+    await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_RELOAD)
+    await imageModel.resetDB()
+
+    const today = new Date(Date.now())
+    const to = 4
+  
+    for(let i=0; i<to; ++i) {
+      await this.api.sendMessageReaction(msg.threadId, msg.messageId, getEmojiByNumber(to-i))
+      const todayImage = await yandeClient.popularByDate(today.getDate(), today.getMonth()+1, today.getFullYear())
+      await Promise.all(todayImage.map(async post => await imageModel.insertImage(post.sample_url, YANDE_RE, JSON.stringify(post.tags.split(' ')), JSON.stringify(post))))  
+      today.setDate(today.getDate()-1)
+    }
+
+    await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_DONE)
   }
 
 }
