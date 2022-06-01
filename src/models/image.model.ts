@@ -1,4 +1,4 @@
-import { Client } from "pg"
+import { Client, QueryResultRow } from "pg"
 
 export default class imageModel {
   client: Client
@@ -12,4 +12,15 @@ export default class imageModel {
     
     return result.rowCount === 0 ? null : result.rows[0].url
   }
+
+  insertImage = async (from: string, url: string, tags: string, metadata: string): Promise<QueryResultRow> => {
+    const response = await this.client.query(`INSERT INTO image("from", "url", "tags", "metadata") VALUES($1, $2, $3, $4);`, [from, url, tags, metadata])
+    return response
+  }
+
+  resetDB = async(): Promise<QueryResultRow> => {
+    const response = await this.client.query(`DELETE FROM image WHERE true;`)
+    return response
+  }
+
 }

@@ -45,6 +45,11 @@ const routes = async (message: any, api: Api): Promise<void> => {
       return
     }
 
+    if (commandIs('fetch')) {
+      reply.update(msg)
+      return
+    }
+
     reply.fromDb(message)
   }
 }
