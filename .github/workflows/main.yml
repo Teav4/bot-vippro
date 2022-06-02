@@ -1,0 +1,57 @@
+name: CI Trigger
+
+on:
+  push:
+    branches: [master]
+
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker login registry.teav4.com
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login registry.teav4.com -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      
+      - name: Docker build
+        run: docker build -t ari:latest .
+      
+      - name: Tag the Docker image
+        run: docker tag ari:latest registry.teav4.com/ari:latest
+      
+      - name: Docker push registry
+        run: docker push registry.teav4.com/ari:latest
+      
+      - name: Pre install
+        run: sudo apt update && sudo apt install openssh-client bash
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_RSA }}
+          name: id_rsa
+          known_hosts: "known_hosts"
+          
+      - name: Add known host
+        run: |
+          ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_RSA}}
+          SSH_SERVER_IP: ${{ secrets.SSH_HOSTNAME }}
+          SSH_USER: ${{secrets.SSH_USERNAME}}
+      
+      - name: Connect to server & deploy
+        run: |
+          ssh $SSH_USER@$SSH_SERVER_IP "docker pull registry.teav4.com/ari:latest \
+           && docker stop aribot && docker rm aribot \
+           && docker run -d --name=aribot registry.teav4.com/ari:latest"
+        shell: bash
+        env:
+          SSH_USER: ${{secrets.SSH_USERNAME}}
+          SSH_SERVER_IP: ${{secrets.SSH_HOSTNAME}}
+          
