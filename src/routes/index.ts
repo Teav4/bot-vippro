@@ -21,7 +21,7 @@ const routes = async (message: any, api: Api): Promise<void> => {
 
   if (typeof message.body === 'string') {
     const msg: IncomingMessage = message
-    const { commandIs, commandStartAt, getCommandArgs } = commandInit(msg.body)
+    const { commandIs, commandStartAt, getCommandArgs, commandIsIncludes } = commandInit(msg.body)
     logService('message:'+msg.threadId, msg.body)
   
     if (commandIs('hello')) {
@@ -53,6 +53,11 @@ const routes = async (message: any, api: Api): Promise<void> => {
     if (commandStartAt(['tts'])) {
       const args = getCommandArgs('tts')
       reply.textToSpeed(msg, args)
+      return
+    }
+
+    if(commandIsIncludes(['loli'])) {
+      api.sendMessageReaction(msg.threadId, msg.messageId, '🔨')
       return
     }
 

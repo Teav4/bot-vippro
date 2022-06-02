@@ -8,3 +8,11 @@ export function validURL(str: string): boolean {
     
   return !!pattern.test(str);
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isArray(a: any|any[]): boolean {
+  if (typeof a === 'object' && typeof a.length === 'number') {
+    return true
+  }
+  return false
+}
