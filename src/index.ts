@@ -2,6 +2,7 @@ import facebookLogin from '..'
 import config from '../config/index.config'
 import { logService } from './services/log'
 import routes from './routes'
+import { IncomingMessage } from '../lib/types/incomingMessages'
 
 // check username + password
 if (!(config.MESSENGER_USERNAME && config.MESSENGER_PASSWORD)) {
@@ -18,7 +19,7 @@ const runner = async (): Promise<unknown> => {
 
   // // routines
   await api.listen()
-  api.listener?.addListener('message', (message) => routes(message, api));
+  api.listener?.addListener('message', (message: IncomingMessage) => routes(message, api));
 }
 
 export default runner

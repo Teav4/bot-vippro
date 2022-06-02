@@ -1,4 +1,4 @@
-import Api from "../../dist/lib/api";
+import Api from "../../lib/api";
 import { IncomingMessage } from "../../lib/types/incomingMessages";
 import { getFileStreamFromURL } from '../utils/http'
 import { imageProps, SankakuClient } from "../services/sankakuClient";

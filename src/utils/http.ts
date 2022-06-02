@@ -6,7 +6,7 @@ export function getFileStreamFromURL(remoteUrl: string, extension?: string): Pro
   const ext = extension || remoteUrl.slice(-4)
   
   return new Promise((resolve) => {
-    const filePath =  path.join(__dirname, '..', '..', 'files', Date.now().toString()+ext)
+    const filePath =  path.join(__dirname, '..', '..', '..', 'files', Date.now().toString()+ext)
 
     request(remoteUrl)
       .pipe(fs.createWriteStream(filePath))
