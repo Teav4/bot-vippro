@@ -6,7 +6,7 @@
 	"types": "./dist/index.d.ts",
 	"scripts": {
 		"start": "node ./build/main.js",
-		"test": "tsc && npx mocha -r ts-node/register",
+		"test": "ENV_TAG=development ts-node ./build/main.js",
 		"prepublish": "npm run build",
 		"build": "tsc",
 		"generateDocs": "npx typedoc --out docs ./lib/api.ts ./lib/types/incomingMessages.ts ./lib/types/threads.ts ./lib/types/users.ts ./lib/types.ts --excludePrivate --excludeInternal --name \"Facebook Messenger API\" --includeVersion --hideGenerator"

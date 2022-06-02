@@ -8,6 +8,4 @@ COPY .env.${ENV_TAG} ./.env
 RUN npm install
 RUN npm run build
 
-RUN chown -R node:node files
-
 CMD ["npm", "start"]

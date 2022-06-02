@@ -13,18 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Docker login registry.teav4.com
-        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login registry.teav4.com -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-      
-      - name: Docker build
-        run: docker build -t ari:latest .
-      
-      - name: Tag the Docker image
-        run: docker tag ari:latest registry.teav4.com/ari:latest
-      
-      - name: Docker push registry
-        run: docker push registry.teav4.com/ari:latest
-      
       - name: Pre install
         run: sudo apt update && sudo apt install openssh-client bash
 
@@ -45,13 +33,34 @@ jobs:
           SSH_SERVER_IP: ${{ secrets.SSH_HOSTNAME }}
           SSH_USER: ${{secrets.SSH_USERNAME}}
       
-      - name: Connect to server & deploy
-        run: |
-          ssh $SSH_USER@$SSH_SERVER_IP "docker pull registry.teav4.com/ari:latest \
-           && docker stop aribot && docker rm aribot \
-           && docker run -d --name=aribot registry.teav4.com/ari:latest"
-        shell: bash
+      # - name: Connect to server & deploy
+      #   run: |
+      #     ssh $SSH_USER@$SSH_SERVER_IP "cd ~/bot-vippro \
+      #      && su cicd \
+      #      && git pull \
+      #      && npm install \
+      #      && rm files/* \
+      #      && pm2 start npm --name aribot -- start"
+      #   shell: bash
+      #   env:
+      #     SSH_USER: ${{secrets.SSH_USERNAME}}
+      #     SSH_SERVER_IP: ${{secrets.SSH_HOSTNAME}}
+    
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.SSH_HOSTNAME}}
+          username: ${{secrets.SSH_USERNAME}}
+          key: ${{secrets.SSH_PRIVATE_RSA}}
+          port: 22
+          script: |
+            cd ~/bot-vippro
+            git pull origin master
+            git status
+            npm install
+            npm run build
+            pm2 start build/main.js
         env:
           SSH_USER: ${{secrets.SSH_USERNAME}}
           SSH_SERVER_IP: ${{secrets.SSH_HOSTNAME}}
-          
+          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_RSA}}
