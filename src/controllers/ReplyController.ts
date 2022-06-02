@@ -1,5 +1,5 @@
 import { Client } from "pg";
-import Api from "../../dist/lib/api";
+import Api from "../../lib/api";
 import { IncomingMessage } from "../../lib/types/incomingMessages";
 import ReplyModel from "../models/reply.model";
 import ImageModel from "../models/image.model";

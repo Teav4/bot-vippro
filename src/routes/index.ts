@@ -2,7 +2,7 @@
 import { commandInit } from '../utils'
 import { IncomingMessage } from '../../lib/types/incomingMessages'
 import { replyController } from '../controllers/ReplyController'
-import Api from '../../dist/lib/api'
+import Api from '../../lib/api'
 import { connectPostgres } from '../database/connect'
 import config from '../../config/index.config'
 import { logService } from '../services/log'
