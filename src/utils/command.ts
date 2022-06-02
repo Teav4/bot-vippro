@@ -24,10 +24,11 @@ function commandIs(key: string|string[], message: string): boolean {
   return key === message.trim()
 }
 
-function commandIsIncludes(key: string[], message: string): boolean {
-  const isInclude = (m: string) => key.some(e => m.includes(e))
+function commandIsIncludes(key: string[], text: string): boolean {
+  const message = text.trim()
+  const isInclude = (m: string) => key.some(e => m.includes(e+' ')) || key.some(e => m.includes(' '+e)) 
 
-  return isInclude(message+' ') || isInclude(' '+message) || commandIs(message, message)
+  return isInclude(message) || commandIs(key, message)
 }
 
 function getCommandArgs(prefix: string, message: string): string[] {
