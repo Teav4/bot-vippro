@@ -11,6 +11,7 @@ const config = {
   POSTGRES_DB: process.env.POSTGRES_DB,
   SANKAKU_USERNAME: process.env.SANKAKU_USERNAME,
   SANKAKU_PASSWORD: process.env.SANKAKU_PASSWORD,
+  USER_AGENT: process.env.USER_AGENT,
 }
 
 export default config
