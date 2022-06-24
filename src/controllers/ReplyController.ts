@@ -3,12 +3,15 @@ import Api from "../../lib/api";
 import { IncomingMessage } from "../../lib/types/incomingMessages";
 import ReplyModel from "../models/reply.model";
 import ImageModel from "../models/image.model";
+import B2ArtModel from "../models/b2art.model";
 import { getFileStreamFromURL } from '../utils/http'
 import { validURL } from '../utils/validate';
 import { YandeClient } from '../services/yandeClient'
 import { YANDE_RE, EMOJI_RELOAD, EMOJI_DONE, EMOJI_UP } from '../constants/reply.constants'
 import { getEmojiByNumber } from "../utils/command";
 import { googleTTS } from "../services/textToSpeed";
+import { getListArt } from "../services/b2";
+import config from "../../config/index.config";
 
 export class replyController {
   api: Api
@@ -64,6 +67,19 @@ export class replyController {
 
   }
 
+  randomB2 = async (msg: IncomingMessage): Promise<void> => {
+    const b2ArtModel = new B2ArtModel(this.db)
+    const imageUrl = await b2ArtModel.getRandomImage()
+    console.log({ imageUrl })
+    if (null !== imageUrl) {
+      const imageStream = await getFileStreamFromURL(imageUrl, imageUrl.slice(imageUrl.lastIndexOf('.'), imageUrl.length))
+      this.api.sendMessage({
+        attachment: [imageStream],
+      }, msg.threadId)
+    }
+
+  }
+
   update = async (msg: IncomingMessage): Promise<void> => {
     const yandeClient = new YandeClient()
     const imageModel = new ImageModel(this.db)
@@ -80,6 +96,16 @@ export class replyController {
       today.setDate(today.getDate()-1)
     }
 
+    await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_DONE)
+  }
+
+  updateB2 = async (msg: IncomingMessage): Promise<void> => {
+    await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_RELOAD)
+    const arts = await getListArt()
+    const b2ArtModel = new B2ArtModel(this.db)
+    
+    await b2ArtModel.resetDB()
+    await Promise.all(arts.files.map(async art => await b2ArtModel.insertImage(art.fileName, `${config.B2_BASE_CDN}/${art.fileName}`)))
     await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_DONE)
   }
 

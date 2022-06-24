@@ -30,6 +30,7 @@
 		"@types/pg": "^8.6.5",
 		"@types/request-promise": "^4.1.48",
 		"axios": "^0.21.4",
+		"backblaze-b2": "^1.7.0",
 		"cheerio": "^1.0.0-rc.5",
 		"dotenv": "^16.0.1",
 		"events": "^3.2.0",
@@ -51,6 +52,7 @@
 		"websocket-stream": "^5.5.2"
 	},
 	"devDependencies": {
+		"@types/backblaze-b2": "^1.5.1",
 		"@types/chai": "^4.2.14",
 		"@types/events": "^3.0.0",
 		"@types/mocha": "^8.2.0",
