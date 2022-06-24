@@ -6,6 +6,7 @@ import Api from '../../lib/api'
 import { connectPostgres } from '../database/connect'
 import config from '../../config/index.config'
 import { logService } from '../services/log'
+import { randomOfList } from '../utils/random'
 
 const client = connectPostgres({
   dbHost: config.POSTGRES_HOST as string,
@@ -41,12 +42,19 @@ const routes = async (message: any, api: Api): Promise<void> => {
 
     if (commandIs('💸') || commandIs('🦹‍♂️')) {
       api.sendMessageReaction(msg.threadId, msg.messageId, '👀')
-      reply.randomImage(msg)
+      // const random = randomOfList([reply.randomImage, reply.randomB2])
+      // await random(msg)
+      await reply.randomB2(msg)
       return
     }
 
     if (commandIs('fetch')) {
       reply.update(msg)
+      return
+    }
+
+    if (commandIs('fetch2')) {
+      reply.updateB2(msg)
       return
     }
 
