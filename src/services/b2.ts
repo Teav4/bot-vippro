@@ -31,10 +31,10 @@ export async function getListArt(): Promise<ResponseProps> {
   await b2.authorize();
   const response = await b2.listFileNames({
     bucketId: config.B2_BUCKET_ID as string,
-    startFileName: 'art/',
+    startFileName: '',
     maxFileCount: 1000,
     delimiter: '',
-    prefix: '',
+    prefix: 'bot/Art',
   })
 
   return response.data
