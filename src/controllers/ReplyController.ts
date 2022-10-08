@@ -12,6 +12,7 @@ import { getEmojiByNumber } from "../utils/command";
 import { googleTTS } from "../services/textToSpeed";
 import { getListArt } from "../services/b2";
 import config from "../../config/index.config";
+import { youtubeDl } from "../services/youtubeDl";
 
 export class replyController {
   api: Api
@@ -113,6 +114,18 @@ export class replyController {
     const text = args.join(' ')
     await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_RELOAD)
     const stream = await googleTTS(text)
+    await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_UP)
+
+    await this.api.sendMessage({
+      attachment: [stream],
+    }, msg.threadId)
+    await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_DONE)
+  }
+
+  youtubeDl = async (msg: IncomingMessage, args: string[]): Promise<void> => {
+    const text = args.join(' ')
+    await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_RELOAD)
+    const stream = await youtubeDl(text)
     await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_UP)
 
     await this.api.sendMessage({

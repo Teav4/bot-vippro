@@ -63,6 +63,12 @@ const routes = async (message: any, api: Api): Promise<void> => {
       return
     }
 
+    if (commandStartAt(['yt'])) {
+      const args = getCommandArgs('yt')
+      reply.youtubeDl(msg, args)
+      return
+    }
+
     if(commandIsIncludes(['loli'])) {
       api.sendMessageReaction(msg.threadId, msg.messageId, '🔨')
       return
