@@ -1,6 +1,6 @@
-import request from 'request'
 import fs from 'fs'
 import path from 'path'
+import EasyDl from 'easydl'
 
 export function getFileStreamFromURL(remoteUrl: string, extension?: string): Promise<fs.ReadStream> {
   const ext = extension || remoteUrl.slice(-4)
@@ -12,12 +12,15 @@ export function getFileStreamFromURL(remoteUrl: string, extension?: string): Pro
   return new Promise((resolve) => {
     const filePath =  path.join(assetsDir, Date.now().toString()+ext)
 
-    request(remoteUrl)
-      .pipe(fs.createWriteStream(filePath))
-      .on('close', () => {
-        const stream = fs.createReadStream(filePath)
-        resolve(stream)
-      })
-
+    new EasyDl(
+      remoteUrl,
+      filePath,
+      { connections: 5, maxRetry: 3 }
+    )
+    .wait()
+    .then(() => {
+      const stream = fs.createReadStream(filePath)
+      resolve(stream)
+    })
   })
 }
