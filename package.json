@@ -7,6 +7,7 @@
 	"scripts": {
 		"start": "node ./build/main.js",
 		"test": "ENV_TAG=development ts-node ./build/main.js",
+		"dev": "tsc && node ./build/main.js",
 		"prepublish": "npm run build",
 		"build": "tsc",
 		"generateDocs": "npx typedoc --out docs ./lib/api.ts ./lib/types/incomingMessages.ts ./lib/types/threads.ts ./lib/types/users.ts ./lib/types.ts --excludePrivate --excludeInternal --name \"Facebook Messenger API\" --includeVersion --hideGenerator"
@@ -51,7 +52,8 @@
 		"tweetnacl-sealedbox-js": "^1.2.0",
 		"tweetnacl-util": "^0.15.1",
 		"websocket-stream": "^5.5.2",
-		"youtube-dl-exec": "^2.1.6"
+		"youtube-dl-exec": "^2.1.6",
+		"youtube-search": "^1.1.6"
 	},
 	"devDependencies": {
 		"@types/backblaze-b2": "^1.5.1",

@@ -1,4 +1,13 @@
-import { youtubeDl } from './src/services/youtubeDl'
+import youtubeSearch from "youtube-search";
 
-youtubeDl('https://www.youtube.com/watch?v=AI24NCKB7-k')
-  .then(() => console.log('done'))
+const opts: youtubeSearch.YouTubeSearchOptions = {
+  maxResults: 10,
+  key: "AIzaSyD0XXjkbMYKeeRtXM4HC7W2qxtJgE30xHk",
+  part: 'contentDetails'
+};
+
+youtubeSearch("renai circulation", opts, (err, results) => {
+  if(err ||results === undefined ) return console.log(err);
+
+  console.dir(results[0]);
+})

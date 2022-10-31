@@ -15,7 +15,8 @@ const config = {
   B2_BUCKET_ID: process.env.B2_BUCKET_ID,
   B2_APP_ID: process.env.B2_APP_ID,
   B2_APP_KEY: process.env.B2_APP_KEY,
-  B2_BASE_CDN: 'https://cdn.teav4.com'
+  B2_BASE_CDN: 'https://cdn.teav4.com',
+  GOOGLE_KEY: process.env.GOOGLE_KEY
 }
 
 export default config
