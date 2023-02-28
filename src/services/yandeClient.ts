@@ -51,7 +51,7 @@ export interface YandePost {
 export class YandeClient {
 
   popularByDate = async (day: number, month: number, year: number, tags: string[]): Promise<YandePost[]> => {
-    const url = `https://yande.re/post/popular_by_day?`+ qs.stringify({
+    const url = `https://yande.re/post?`+ qs.stringify({
       day,
       month,
       year,
