@@ -1,4 +1,5 @@
 import request from 'request-promise'
+import qs from 'querystring'
 
 export interface YandePost {
   id: number,
@@ -49,8 +50,13 @@ export interface YandePost {
 
 export class YandeClient {
 
-  popularByDate = async (day: number, month: number, year: number): Promise<YandePost[]> => {
-    const url = `https://yande.re/post/popular_by_day?day=${day}&month=${month}&year=${year}`
+  popularByDate = async (day: number, month: number, year: number, tags: string[]): Promise<YandePost[]> => {
+    const url = `https://yande.re/post/popular_by_day?`+ qs.stringify({
+      day,
+      month,
+      year,
+      tags,
+    })
     const html = await request(url)
 
     const posts = html.split('\n')

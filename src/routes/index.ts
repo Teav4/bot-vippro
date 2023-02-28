@@ -52,6 +52,11 @@ const routes = async (message: any, api: Api): Promise<void> => {
       return
     }
 
+    if (commandIs('updateBA')) {
+      reply.update(msg, ['blue_archive'])
+      return
+    }
+
     if (commandIs('fetch2')) {
       reply.updateB2(msg)
       return

@@ -81,7 +81,7 @@ export class replyController {
 
   }
 
-  update = async (msg: IncomingMessage): Promise<void> => {
+  update = async (msg: IncomingMessage, tags: string[] = []): Promise<void> => {
     const yandeClient = new YandeClient()
     const imageModel = new ImageModel(this.db)
     await this.api.sendMessageReaction(msg.threadId, msg.messageId, EMOJI_RELOAD)
@@ -92,7 +92,7 @@ export class replyController {
   
     for(let i=0; i<to; ++i) {
       await this.api.sendMessageReaction(msg.threadId, msg.messageId, getEmojiByNumber(to-i))
-      const todayImage = await yandeClient.popularByDate(today.getDate(), today.getMonth()+1, today.getFullYear())
+      const todayImage = await yandeClient.popularByDate(today.getDate(), today.getMonth()+1, today.getFullYear(), tags)
       await Promise.all(todayImage.map(async post => await imageModel.insertImage(YANDE_RE, post.sample_url, JSON.stringify(post.tags.split(' ')), JSON.stringify(post))))  
       today.setDate(today.getDate()-1)
     }
