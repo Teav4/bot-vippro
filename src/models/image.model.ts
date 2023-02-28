@@ -1,4 +1,5 @@
 import { Client, QueryResultRow } from "pg"
+import { logService } from "../services/log"
 
 export default class imageModel {
   client: Client
@@ -8,7 +9,8 @@ export default class imageModel {
   }
 
   getRandomImage = async (): Promise<string|null> => {
-    const result = await this.client.query(`SELECT url FROM image ORDER BY random() LIMIT 1;`)
+    const result = await this.client.query(`SELECT id, url FROM image ORDER BY random() LIMIT 1;`)
+    logService('[random image]', `${result.rows[0].id} - ${result.rows[0].url}`)
     
     return result.rowCount === 0 ? null : result.rows[0].url
   }

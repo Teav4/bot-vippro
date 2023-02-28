@@ -42,7 +42,7 @@ const routes = async (message: any, api: Api): Promise<void> => {
 
     if (commandIs('💸') || commandIs('🦹‍♂️')) {
       api.sendMessageReaction(msg.threadId, msg.messageId, '👀')
-      const random = randomOfList([reply.randomImage, reply.randomB2])
+      const random = randomOfList([reply.randomImage])
       await random(msg)
       return
     }
