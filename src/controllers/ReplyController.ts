@@ -91,8 +91,10 @@ export class replyController {
     const to = 4
   
     for(let i=0; i<to; ++i) {
+      const page = i+1
+      
       await this.api.sendMessageReaction(msg.threadId, msg.messageId, getEmojiByNumber(to-i))
-      const todayImage = await yandeClient.popularByDate(today.getDate(), today.getMonth()+1, today.getFullYear(), tags)
+      const todayImage = await yandeClient.popularByDate(today.getDate(), today.getMonth()+1, today.getFullYear(), tags, page)
       await Promise.all(todayImage.map(async post => await imageModel.insertImage(YANDE_RE, post.sample_url, JSON.stringify(post.tags.split(' ')), JSON.stringify(post))))  
       today.setDate(today.getDate()-1)
     }
