@@ -4,21 +4,56 @@ datasource db {
 }
 
 model b2_art {
-  id Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
   name String @unique
-  url String @unique
+  url  String @unique
 }
 
 model image {
-  id Int @id @default(autoincrement())
-  from String @db.VarChar(20)
-  url String
-  tags String?
+  id       Int     @id @default(autoincrement())
+  from     String  @db.VarChar(20)
+  url      String
+  tags     String?
   metadata String?
 }
 
 model commands {
-  id Int @id @default(autoincrement())
+  id    Int    @id @default(autoincrement())
   reply String @db.VarChar(255)
-  msg String @db.VarChar(255)
+  msg   String @db.VarChar(255)
+}
+
+model Users {
+  id            BigInt          @id @default(autoincrement())
+  facebook_id   String          @db.VarChar(100)
+  first_name    String          @db.VarChar(100)
+  last_name     String          @db.VarChar(100)
+  full_name     String          @db.VarChar(100)
+  avatar        String          @db.VarChar(255)
+  banned        Boolean
+  last_active   DateTime
+  groups UsersOnGroups[]
+}
+
+model Groups {
+  id                 BigInt          @id @default(autoincrement())
+  messenger_group_id String          @db.VarChar(100)
+  last_active        DateTime
+  users      UsersOnGroups[]
+}
+
+model Ranks {
+  id            BigInt          @id @default(autoincrement())
+  score         BigInt
+  groups UsersOnGroups[]
+}
+
+model UsersOnGroups {
+  id       BigInt @id @default(autoincrement())
+  rank     Ranks  @relation(fields: [rank_id], references: [id])
+  rank_id  BigInt
+  user     Users  @relation(fields: [user_id], references: [id])
+  user_id  BigInt
+  group    Groups @relation(fields: [group_id], references: [id])
+  group_id BigInt
 }

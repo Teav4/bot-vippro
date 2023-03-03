@@ -10,7 +10,8 @@
 		"dev": "tsc && node ./build/main.js",
 		"prepublish": "npm run build",
 		"build": "tsc",
-		"generateDocs": "npx typedoc --out docs ./lib/api.ts ./lib/types/incomingMessages.ts ./lib/types/threads.ts ./lib/types/users.ts ./lib/types.ts --excludePrivate --excludeInternal --name \"Facebook Messenger API\" --includeVersion --hideGenerator"
+		"generateDocs": "npx typedoc --out docs ./lib/api.ts ./lib/types/incomingMessages.ts ./lib/types/threads.ts ./lib/types/users.ts ./lib/types.ts --excludePrivate --excludeInternal --name \"Facebook Messenger API\" --includeVersion --hideGenerator",
+		"migrate": "prisma migrate dev"
 	},
 	"repository": {
 		"type": "git",
@@ -70,6 +71,7 @@
 		"eslint": "^7.17.0",
 		"eslint-config-prettier": "^7.1.0",
 		"mocha": "^8.2.1",
+		"prisma": "^4.11.0",
 		"ts-node": "^9.1.1",
 		"txtgen": "^2.2.8",
 		"typedoc": "^0.20.32",
