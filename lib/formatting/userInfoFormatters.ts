@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { UserGender, UserID, UserInfo } from '../types/users';
+import { MUserInfo, UserGender, UserID, UserInfo } from '../types/users';
 
 export function formatUserInfoDict(userProfiles: any): Record<UserID, UserInfo> {
 	const finalObject: Record<UserID, UserInfo> = {};
@@ -33,6 +33,10 @@ export function formatUserInfoDict(userProfiles: any): Record<UserID, UserInfo> 
 		};
 	}
 	return finalObject;
+}
+
+export function formatMUserInfoDict(userProfiles: any): Record<UserID, MUserInfo> {
+	return userProfiles;
 }
 
 function getGender(gender: any): UserGender {

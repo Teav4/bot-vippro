@@ -12,8 +12,8 @@ import {
 } from './types';
 import { parseDelta } from './formatting/incomingMessageFormatters';
 import { Presence, Typ, IncomingMessageType } from './types/incomingMessages';
-import { UserID, UserInfo } from './types/users';
-import { formatUserInfoDict } from './formatting/userInfoFormatters';
+import { MUserInfo, UserID, UserInfo } from './types/users';
+import { formatMUserInfoDict, formatUserInfoDict } from './formatting/userInfoFormatters';
 import * as utils from './utils';
 import * as formatters from './formatters';
 import mqtt from 'mqtt';
@@ -569,6 +569,22 @@ export default class Api {
 				return formatUserInfoDict(resData.payload.profiles);
 			});
 	}
+
+		/** Returns all available information about one or more users by their FB id.
+	 * @category Users */
+		async getMUserInfo(id: UserID[]): Promise<Record<UserID, MUserInfo>> {
+			const form: { [index: string]: UserID } = {};
+			id.forEach((value, index) => (form['ids[' + index + ']'] = value));
+			return await this._defaultFuncs
+				.post('https://m.facebook.com/chat/user_info/', this.ctx.jar, form)
+				.then(utils.parseAndCheckLogin(this.ctx, this._defaultFuncs))
+				.then(resData => {
+					if (resData.error) {
+						throw resData;
+					}
+					return formatMUserInfoDict(resData.payload.payload.profiles);
+				});
+		}
 
 	/** Sets a custom emoji to a thread with `threadId`.
 	 * If you want to keep the original Facebook "like", set the `emoji` argument as an empty string.

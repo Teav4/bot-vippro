@@ -24,11 +24,11 @@ export const initModels = async (message: IncomingMessage, api: Api) => {
 
   if (!_isUserExist) {
     logService('CREATE NEW USER', `fid: ${message.senderId}`)
-    const user = await api.getUserInfo([message.senderId])
+    const user = await api.getMUserInfo([message.senderId])
     
-    const avatar = user[message.senderId].thumbSrc
+    const avatar = user[message.senderId].mThumbSrcLarge
     const first_name = user[message.senderId].firstName
-    const full_name = user[message.senderId].fullName
+    const full_name = user[message.senderId].name
     const last_name = full_name.replace(first_name, '').trim()
 
     createUserIfNotExist({

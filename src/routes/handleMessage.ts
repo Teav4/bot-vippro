@@ -67,8 +67,14 @@ export const handleMessage = async (msg: IncomingMessage, api: Api, pgClient: Cl
       return
     }
 
-    if(commandIsIncludes(['loli'])) {
+    if (commandIsIncludes(['loli'])) {
       api.sendMessageReaction(msg.threadId, msg.messageId, '🔨')
+      return
+    }
+
+    if (commandIs('test')) {
+      const info = await api.getMUserInfo([msg.senderId])
+      console.log({ info })
       return
     }
 

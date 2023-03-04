@@ -36,3 +36,26 @@ export interface UserInfo {
 	 * @see {isFriend} property to indicate whether a person is friend of the singed in user. */
 	type: 'friend' | 'user' | 'page' | 'event' | 'app' | 'group' | string;
 }
+
+export interface MUserInfo {
+	id: UserID,
+	name: string,
+	firstName: string,
+	vanity: string|null,
+	thumbSrc: null,
+	uri: string,
+	gender: number,
+	i18nGender: number,
+	/** Type of FB account.
+	 * @see {isFriend} property to indicate whether a person is friend of the singed in user. */
+	type: 'friend' | 'user' | 'page' | 'event' | 'app' | 'group' | string;
+	is_friend: boolean,
+	mThumbSrcSmall: string,
+	mThumbSrcLarge: string,
+	dir: null,
+	searchTokens: string[],
+	alternateName: string,
+	is_nonfriend_messenger_contact: boolean,
+	is_blocked: boolean
+
+}
