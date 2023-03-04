@@ -57,7 +57,7 @@ model UsersOnGroups {
   rank     Ranks  @relation(fields: [rank_id], references: [id])
   rank_id  String @unique
   user     Users  @relation(fields: [user_id], references: [id])
-  user_id  String @unique
+  user_id  String 
   group    Groups @relation(fields: [group_id], references: [id])
-  group_id String @unique
+  group_id String 
 }
