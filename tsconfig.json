@@ -15,8 +15,14 @@
 			"node"
 		]
 	},
-	"include": ["./index.ts", "./lib/**/*", "./src/**/*", "./main.ts"],
+	"include": [
+		"./index.ts", 
+		"./lib/**/*", 
+		"./src/**/*", 
+		"./main.ts",
+		"./@types/**/*.d.ts"
+	],
 	"exclude": [
 		"node_modules",
-	]
+	],
 }

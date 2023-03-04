@@ -3,6 +3,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
 model b2_art {
   id   Int    @id @default(autoincrement())
   name String @unique
@@ -24,36 +28,36 @@ model commands {
 }
 
 model Users {
-  id            BigInt          @id @default(autoincrement())
-  facebook_id   String          @db.VarChar(100)
-  first_name    String          @db.VarChar(100)
-  last_name     String          @db.VarChar(100)
-  full_name     String          @db.VarChar(100)
-  avatar        String          @db.VarChar(255)
-  banned        Boolean
-  last_active   DateTime
-  groups UsersOnGroups[]
+  id          String          @id @default(uuid())
+  facebook_id String          @unique @db.VarChar(100)
+  first_name  String          @db.VarChar(100)
+  last_name   String          @db.VarChar(100)
+  full_name   String          @db.VarChar(100)
+  avatar      String          @db.VarChar(2083)
+  banned      Boolean
+  last_active DateTime
+  groups      UsersOnGroups[]
 }
 
 model Groups {
-  id                 BigInt          @id @default(autoincrement())
-  messenger_group_id String          @db.VarChar(100)
+  id                 String          @id @default(uuid())
+  messenger_group_id String          @unique @db.VarChar(100)
   last_active        DateTime
-  users      UsersOnGroups[]
+  users              UsersOnGroups[]
 }
 
 model Ranks {
-  id            BigInt          @id @default(autoincrement())
-  score         BigInt
+  id     String          @id @default(uuid())
+  score  Int
   groups UsersOnGroups[]
 }
 
 model UsersOnGroups {
-  id       BigInt @id @default(autoincrement())
+  id       String @id @default(uuid())
   rank     Ranks  @relation(fields: [rank_id], references: [id])
-  rank_id  BigInt
+  rank_id  String @unique
   user     Users  @relation(fields: [user_id], references: [id])
-  user_id  BigInt
+  user_id  String @unique
   group    Groups @relation(fields: [group_id], references: [id])
-  group_id BigInt
+  group_id String @unique
 }

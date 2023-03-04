@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Users" ALTER COLUMN "avatar" SET DATA TYPE VARCHAR(2083);
