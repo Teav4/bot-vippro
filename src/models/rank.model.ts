@@ -127,10 +127,10 @@ export const levelUp = async (facebookUserId: string, messengerGroupId: string, 
   const currentLv = getLevel(queryResult?.rank.score || 1).lv
   const lv = queryResult?.rank.level || 0
 
-  if (currentLv > lv) {
+  if (currentLv > lv && queryResult) {
     await prisma.ranks.update({
       where: {
-        id: queryResult?.rank_id
+        id: queryResult.rank_id
       },
       data: {
         level: {
