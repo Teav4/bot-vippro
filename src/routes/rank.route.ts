@@ -35,7 +35,13 @@ export const handleRankCommand: Route.RouteMiddleware = async (msg, api, command
 
     await api.sendMessage({
       body: `Chúc mừng bạn vừa lên cấp ${level} 🎉🎉`,
-      attachment: [readStream]
+      attachment: [readStream],
+      mentions: [
+        {
+          id: msg.senderId,
+          name: 'Chúc mừng'
+        }
+      ]
     }, msg.threadId)
   })
 
