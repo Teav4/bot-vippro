@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Ranks" ADD COLUMN     "level" INTEGER NOT NULL DEFAULT 0;

@@ -60,3 +60,39 @@ export const isExist = async (input: UsersOnGroups.CheckIsExistInput): Promise<b
 
   return count !== 0
 }
+
+export const updateChatActivity = async (input: UsersOnGroups.UpdateChatActivityInput) => {
+  await prisma.usersOnGroups.updateMany({
+    where: {
+      group: {
+        messenger_group_id: input.messengerGroupId,
+      },
+      user: {
+        facebook_id: input.facebookUserId,
+      }
+    },
+    data: {
+      message_count: {
+        increment: 1,
+      },
+    }
+  })
+
+  await prisma.users.update({
+    where: {
+      facebook_id: input.facebookUserId,
+    },
+    data: {
+      last_active: new Date()
+    }
+  })
+
+  await prisma.groups.update({
+    where: {
+      messenger_group_id: input.messengerGroupId,
+    },
+    data: {
+      last_active: new Date()
+    }
+  })
+}

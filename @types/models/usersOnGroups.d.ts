@@ -9,4 +9,10 @@ module UsersOnGroups {
     messengerGroupId: string
     facebookUserId: string
   }
+
+  type UpdateChatActivityInput = {
+    messengerGroupId: string
+    facebookUserId: string
+  }
+
 }

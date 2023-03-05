@@ -3,22 +3,24 @@ import { read } from 'jimp'
 import path from 'path'
 const textToImage = require('text-to-image')
 
-type Props = {
+type Input = {
   score: string
   userLv: string
+  progress: [number, number]
   userName: string
   userDesc: string
   chatActivity: string
   maxGlobalLv: string
   facebookId: string
+  avatar: Buffer
 }
 
 const readFromBase64 = (base64String: string) => {
   return read(Buffer.from(base64String.replace(/^data:image\/png;base64,/, ""), 'base64'))
 }
 
-const dirPath = path.join(__dirname,'..', '..', '..',  'assets', 'generateProfileCard')
-const fontDirPath = path.join(__dirname,'..', '..', '..',  'assets', 'fonts')
+const dirPath = path.join(__dirname,'..', '..', '..', '..', 'assets', 'generateProfileCard')
+const fontDirPath = path.join(__dirname,'..', '..', '..', '..', 'assets', 'fonts')
 const generateTextConfig = {
   bgColor: 'transparent',
   fontPath: fontDirPath+'/static/Inter-Bold.ttf',
@@ -28,9 +30,8 @@ const generateTextConfig = {
   textColor: "#FFFFFF"
 } 
 
-export const generateProfileCard = async (props: Props) => {
-  const textDirPath = path.join(__dirname, '..', '..', '..', 'files', props.facebookId)
-  
+export const generateProfileCard = async (props: Input) => {
+  const textDirPath = path.join(__dirname, '..', '..', '..', '..', 'files', props.facebookId)
   
   if (!existsSync(textDirPath)) {
     mkdirSync(textDirPath)
@@ -79,27 +80,28 @@ export const generateProfileCard = async (props: Props) => {
   const maxGlobalLv = await readFromBase64(maxGlobalLvBase64)
 
   const background = await read(dirPath+'/Background.png')
-  // const desc = await read(dirPath+'/💬 “Chjtanbao”.png')
-  // const chatActivity = await read(dirPath+'/Chat Activity_ 2500.png')
-  // const userName = await read(dirPath+'/Bánh Gạo.png')
-  // const maxGlobalLv = await read(dirPath+'/Max Global Lv_ 25.png')
-  const avatar = await read(dirPath+'/avatar.png')
+  const avatar = await read(props.avatar)
   const lv = await read(dirPath+'/Lv..png')
-  // const userLv = await read(dirPath+'/8.png')
   const progressFilled = await read(dirPath+'/progress_fill.png')
   const progressBackground = await read(dirPath+'/progress_background.png')
   const navBackground = await read(dirPath+'/nav_background.png')
   const line1 = await read(dirPath+'/Line 1.png')
   const line2 = await read(dirPath+'/Line 2.png')
   const infoBackground = await read(dirPath+'/info_background.png')
+  const commentDot = await read(dirPath+'/comment_dot.png')
+  const strokeBg = await read(dirPath+'/stroke.png')
+  const progressBarWidth = Math.round(props.progress[0]/props.progress[1]*324) + 1
 
-  background
+  await background
     // nav
     .composite(navBackground, 232, 58)
     .composite(lv, 358, 68)
     .composite(userLv, 352, 72)
     .composite(progressBackground,417, 96)
-    .composite(progressFilled,417, 96)
+    .composite(progressFilled.resize(
+      progressBarWidth,
+      progressFilled.getHeight(),
+    ),417, 96)
     .composite(score, 408, 94)
 
     // bio
@@ -107,13 +109,34 @@ export const generateProfileCard = async (props: Props) => {
     .composite(line1, 298, 179)
     .composite(line2, 298, 221)
     .composite(userName, 388, 140)
-    .composite(userDesc, 373, 182)
+    .composite(commentDot, 362, 195)
+    .composite(userDesc, 378, 182)
     .composite(chatActivity, 342, 228)
     .composite(maxGlobalLv, 611, 228)
 
     // avatar
-    .composite(avatar, 118, 42)
+    .composite(
+      strokeBg
+      .resize(250, 250)
+        .circle({
+          radius: 250/2,
+          x: 250/2,
+          y: 250/2,
+        })
+      , 118, 42)
+    .composite(
+      avatar
+        .resize(230, 230)
+        .circle({
+          radius: 230/2,
+          x: 230/2,
+          y: 230/2,
+        })
+      , 118+(20/2), 42+(20/2)
+    )
   
-  background.writeAsync('./out.png')
+  const filePath = textDirPath+'/profile.jpg'
+  await background.writeAsync(filePath)
 
+  return filePath
 }

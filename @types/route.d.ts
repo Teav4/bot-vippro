@@ -13,7 +13,7 @@ module Route {
       startAt: (key: string[]) => boolean
       args: (prefix: string) => string[]
       includes: (key: string[]) => boolean
-      reply: (msg: OutgoingMessage) => void
+      reply: (msg: OutgoingMessage) => Promise<void>
     },
     pgClient: Client,
   ) => Promise<boolean|undefined>

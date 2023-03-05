@@ -33,7 +33,7 @@ export interface UploadFileAttachmentResponse extends UploadGeneralAttachmentRes
 
 export function getAttachmentID(uploadResponse: any): number {
 	const id =
-		uploadResponse.image_id ?? uploadResponse.video_id ?? uploadResponse.audio_id ?? uploadResponse.file_id ?? -1;
+		uploadResponse.image_id ?? uploadResponse.video_id ?? uploadResponse.audio_id ?? uploadResponse.gif_id ?? uploadResponse.file_id ?? -1;
 	if (id === -1) throw new Error('Could not get an attachment ID from the given object');
 	return id;
 }

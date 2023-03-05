@@ -41,11 +41,13 @@ function getCommandArgs(prefix: string, message: string): string[] {
   return message.replace(prefix, '').trim().split(' ')
 }
 
-function reply(message: OutgoingMessage, api: Api, threadId: string, messageId: string) {
-  api.sendMessage({
+async function reply(message: OutgoingMessage, api: Api, threadId: string, messageId: string) {
+  await api.sendMessage({
     ...message,
     replyToMessage: messageId,
   }, threadId)
+
+  return
 }
 
 function include (api: Api,routes: Route.RouteMiddleware[], message: IncomingMessage, pgClient: Client) {

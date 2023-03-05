@@ -14,6 +14,7 @@ import {
   isExist as isUsersOnGroupsExist,
   createUsersOnGroups,
 } from "../models/usersOnGroups.model"
+import { getRandomAvatar } from "../models/avatar.model"
 
 export const initModels = async (message: IncomingMessage, api: Api) => {
 
@@ -25,8 +26,9 @@ export const initModels = async (message: IncomingMessage, api: Api) => {
   if (!_isUserExist) {
     logService('CREATE NEW USER', `fid: ${message.senderId}`)
     const user = await api.getMUserInfo([message.senderId])
+    const randomAvatar = await getRandomAvatar()
     
-    const avatar = user[message.senderId].mThumbSrcLarge
+    const avatar = randomAvatar.url
     const first_name = user[message.senderId].firstName
     const full_name = user[message.senderId].name
     const last_name = full_name.replace(first_name, '').trim()

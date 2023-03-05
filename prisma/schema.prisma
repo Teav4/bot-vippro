@@ -49,15 +49,25 @@ model Groups {
 model Ranks {
   id     String          @id @default(uuid())
   score  Int
+  level  Int             @default(1)
   groups UsersOnGroups[]
 }
 
 model UsersOnGroups {
-  id       String @id @default(uuid())
-  rank     Ranks  @relation(fields: [rank_id], references: [id])
-  rank_id  String @unique
-  user     Users  @relation(fields: [user_id], references: [id])
-  user_id  String 
-  group    Groups @relation(fields: [group_id], references: [id])
-  group_id String 
+  id            String @id @default(uuid())
+  rank          Ranks  @relation(fields: [rank_id], references: [id])
+  rank_id       String @unique
+  user          Users  @relation(fields: [user_id], references: [id])
+  user_id       String
+  group         Groups @relation(fields: [group_id], references: [id])
+  group_id      String
+  quote         String @default("eat sleep gacha repeat...")
+  message_count Int    @default(0)
+}
+
+model Avatar {
+  id        String   @id @default(uuid())
+  label     String
+  url       String   @db.VarChar(2083)
+  createdAt DateTime @default(now())
 }
