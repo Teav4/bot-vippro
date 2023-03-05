@@ -88,7 +88,7 @@ export class replyController {
     await imageModel.resetDB()
 
     const today = new Date(Date.now())
-    const to = 4
+    const to = 9
   
     for(let i=0; i<to; ++i) {
       const page = i+1
