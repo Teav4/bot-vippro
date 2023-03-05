@@ -23,6 +23,26 @@ export const isExist = async (rankId: string): Promise<boolean> => {
   return count !== 0
 }
 
+export const getUserRank = async (facebookUserId: string) => {
+  const result = await prisma.usersOnGroups.findFirst({
+    where: {
+      user: {
+        facebook_id: facebookUserId,
+      }
+    },
+    include: {
+      rank: {
+        select: {
+          score: true
+        }
+      }
+    }
+  })
+
+  console.log({ result })
+
+}
+
 export const addScore = async (facebookUserId: string, messengerGroupId: string) => {
   const userOnGroups = await prisma.usersOnGroups.findFirst({
     where: {
