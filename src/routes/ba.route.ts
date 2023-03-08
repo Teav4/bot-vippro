@@ -22,6 +22,11 @@ export const handleBACommand: Route.RouteMiddleware =  async (msg, api, command,
     return
   }
 
+  if (command.is('updateALL')) {
+    reply.update(msg, [])
+    return
+  }
+
   if (command.is('fetch2')) {
     reply.updateB2(msg)
     return

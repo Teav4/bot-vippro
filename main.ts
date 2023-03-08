@@ -1,3 +1,3 @@
 import runner from './src'
 
-runner().then()
+runner().then().catch(console.log)
