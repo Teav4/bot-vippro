@@ -446,8 +446,8 @@ export function formatThreadInfo(data: any): ThreadInfo {
 
 		customisation: {
 			enabledCustomisation: messageThread.customization_enabled,
-			emoji: messageThread.customization_info.emoji,
-			outgoingBubbleColor: messageThread.customization_info.outgoing_bubble_color,
+			emoji: messageThread.customization_info?.emoji,
+			outgoingBubbleColor: messageThread.customization_info?.outgoing_bubble_color,
 			imageUri: messageThread.image?.uri
 			// Disabled by Facebook, may not work in the future
 			// nicknames: messageThread.customization_info?.participant_customizations?.reduce((res: any, val: any) => {

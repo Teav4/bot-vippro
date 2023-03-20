@@ -26,6 +26,11 @@ export const handleRankCommand: Route.RouteMiddleware = async (msg, api, command
 
   // LV UP
   await levelUp(msg.senderId.toString(), msg.threadId.toString(), async (level) => {
+
+    if (!['6005596069556213', '6252766894736244'].includes(msg.threadId.toString())) {
+      return
+    }
+
     const image = randomOfList([
       './assets/levelUP/kokomi1.gif',
       './assets/levelUP/kokomi2.gif',
